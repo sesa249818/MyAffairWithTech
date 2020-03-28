@@ -1,0 +1,19 @@
+//22. 2's Sum
+//O(N^2) two loop
+//nlogn sort and two sliding pointer
+// o(n) solution by using map
+
+func TwoSum(nums []int,target int)bool{
+	if len(nums) < 2{
+		return false
+	}
+	//key will be element and  value will be index
+	maps:= make(map[int]int)
+	for i:=0;i<n;i++{
+		temp:=target-nums[i]
+		if _,exist:=maps[temp]; exist{
+			return true
+		}else{
+			maps[temp]=i
+		}
+	}
