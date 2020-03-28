@@ -1,0 +1,39 @@
+//11. Minimum remove to make valid parentheses
+
+func  (s string) string {
+
+    if len(s) == 0{
+        return ""
+    }
+    opi:=make([]int,0)
+    cpi:=make([]int,0)
+
+    for i,char:=range s{
+        if char =='('{
+            opi=append(opi,i)
+            continue
+        }else if char == ')'{
+            if len(opi) > 0 {
+                opi=opi[:len(opi)-1]
+            } else{
+                cpi=append(cpi,i)
+            }
+        }
+    }
+    return buildString(s,opi,cpi)
+}
+func buildString(s string,opi []int,cpi []int)string{
+    runes:=make([]rune,0)
+    for i,char:=range s{
+        if len(opi) > 0 && opi[0]==i{
+            opi=opi[1:]
+            continue
+        }
+        if len(cpi) > 0 && cpi[0] == i{
+            cpi =cpi[1:]
+            continue
+        }
+        runes=append(runes,char)
+    }
+    return string(runes)
+}
