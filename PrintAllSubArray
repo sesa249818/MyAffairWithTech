@@ -1,0 +1,27 @@
+// print all subarray of given array.
+func printAllSubArray(nums []int){
+	n:=len(nums)
+	if n == 0{
+		return
+	}
+	for l:=1;l<=n ;l++{
+		for s:=0;s<=(n-l);s++{
+			fmt.Println(nums[s:s+l])
+		}
+	}
+}
+func printAllSubArrayRecursion(nums []int,s int,l int){
+	n:=len(nums)
+	if n == 0{
+		return
+	}
+	if l > n{
+		return
+	}
+    if s + l <=n{
+		fmt.Println(nums[s:s+l])
+		printAllSubArray(nums,s+1,l)
+	}else{
+		printAllSubArray(nums,0,l+1)
+	}
+}
