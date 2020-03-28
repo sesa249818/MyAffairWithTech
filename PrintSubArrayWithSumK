@@ -1,0 +1,21 @@
+func PrintSubArrayWithSumK(nums []int,target int){
+	n:=len(nums)
+	if n ==0{
+		return
+	}
+	sum:=0
+	var dMap=make(map[int]int)
+	for i:=0;i< n;i++{
+		sum+=nums[i]
+		if sum==target{
+			fmt.Println(nums[:i+1])
+		}
+		temp:=sum-target
+		if index,exist:=dMap[temp];exist{
+			fmt.Println(nums[index+1:i+1])
+		}else{
+		dMap[sum]=i
+		}
+
+	}
+}
