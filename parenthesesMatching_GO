@@ -1,0 +1,27 @@
+//3. Paranthesis matching.
+func isValid(s string)bool{
+	if len(s) == 0{
+		return true
+	}
+	pMap:=map[rune]rune{
+		'}':'{',
+		')':'(',
+		']':'[',
+	}
+	stack:=make([]rune)
+	for _,char:=range s{
+		if char == '(' || char =='[' || char == '{'{
+			stack=append(stack,char)
+		}
+		if val,exist:=pMap[char];exist && val == stack[len(s)-1]{
+			stack=stack[:len(s)-1]
+		}else{
+			return false
+		}
+	}
+	if len(stack)== 0{
+		return true
+	}else{
+		return false
+	}
+}
