@@ -19,3 +19,20 @@ func PrintSubArrayWithSumK(nums []int,target int){
 
 	}
 }
+
+//Print subArray with sum zero
+func PrintSubArrayWithSumZero(nums []int){
+	n:=len(nums)
+	if n == 0{
+		return
+	}
+	//start,end:=-1,-1
+	for i:=0;i<n;i++{
+		sum:=0
+		for j:=i;j<n;j++{
+			sum+=nums[j]
+			if sum == 0{
+				fmt.Println(nums[i:j+1])
+			}
+		}
+	}
