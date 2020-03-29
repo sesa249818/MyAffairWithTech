@@ -1,0 +1,26 @@
+type BinaryNode struct{
+ 	left *BinaryNode
+	right *BinaryNode
+	data int
+}
+
+
+func isBTSimilar(bt1 *BinaryNode, bt2 *BinaryNode) bool{
+ // If both tree is empty
+if bt1 == nil && bt2 == nil{
+	return true
+}
+// if one of the tree is empty
+if bt1 == nil || bt2 == nil{
+	return false
+}
+if bt1.data != bt2.data{
+	return false
+}
+
+return ( (isBTSimilar(bt1.left,bt2.left) && (isBTSimilar(bt1.right, bt2.right)) ||
+
+( isBTSimilar(bt1.left,bt2.right) && isBTSimilar(bt1.right, bt2.left)))
+}
+
+O(n) = 4T(n/2) +1 = n^2
