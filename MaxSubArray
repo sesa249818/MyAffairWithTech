@@ -1,22 +1,16 @@
-//1. Max SubArray
-
-func maxSubArraySum(nums []int)int{
-	if len(nums) == 0{
-		return 0
-	}
-	maxG:=nums[0]
-	maxL:=nums[0]
-	for i:=1;i<len(nums);i++{
-		maxL=max(nums[i],maxL + nums[i])
-		if maxL > maxG{
-			return maxL
+func Kadane(arr []int) int{
+	maxC,maxG:=arr[0],arr[0]
+	for i:=1; i< len(arr) -1 ; i ++{
+		maxC=max(arr[i],maxC+ arr[i])
+		if maxC > maxG {
+			maxG = maxC
 		}
 	}
 }
-func max(m int, n int)int{
-	if m > n{
-		return m
+func max (num int, num1 int) m{
+	if num > num1{
+		return num
 	}else{
-		return n
+		return num1
 	}
 }
