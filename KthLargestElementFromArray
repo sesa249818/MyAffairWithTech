@@ -1,0 +1,40 @@
+func getKthLargestElementFromArray(nums int, k int)int{
+	n :=len(nums)
+	if k > n{
+		return -1
+	}
+	//By sorting is doable in nlog(n).
+	//Build heap then remove top  k-1 time==o(n) +(k-1)logn
+	//Tony hoare quick select-O(n)
+}
+func kthSmallestElement(nums []int,l int,r int,k int)int{
+	if k < r-l +1{
+		pivot:=partiton(nums,l,r)
+
+		if pivot -l == k-1{
+			return nums[pivot]
+		}else if pivot - l > k-1{
+			//search in left sub array
+			kthSmallestElement(nums,l,pivot-1,k)
+
+		}else{
+			//search in right sub array
+			kthSmallestElement(nums,pivot+1,r,k-pivot+l-1)
+		}
+	}
+	return math.Int32Max
+
+}
+func partiton(nums []int,l int,r int)int{
+	//Consider last elment as pivot.
+	//Move all element less than pivot to left and greater element to right.
+	pivot,j:=nums[r],l
+	for i:=l ;i< r;i++{
+		if nums[i]< pivot{
+			nums[i],nums[j]=nums[j],nums[i]
+			j++
+		}
+	}
+	nums[j],nums[r]=nums[r],nums[j]
+	return j
+}
