@@ -1,0 +1,279 @@
+
+//Tree
+type treeNode struct{
+	left *treeNode
+	right *treeNode
+	val int
+}
+
+func lookUp(node *treeNode, target int)bool{
+	//1. Base case == emtry tree, in this case target is not found so return false
+	if node == nil{
+		return false
+	}
+
+	if target == node.Val{
+		return true
+	}
+
+	//recur down to correct subtree.
+	if target > node.data{
+		return lookUp(node.right,target)
+	}else{
+		return lookUp(node.left,target)
+	}
+}
+func newNode(int data)*treeNode{
+	return &treeNode{
+		val:data
+	}
+}
+func insertNode(node *treeNode, data int)*treeNode{
+	//If tree is empty ,return new single node
+	if node == nil{
+		return newNode(data)
+	}
+	if data >= node.data{
+		node.right= insertNode(node.right,data)
+	}else{
+		node.left = insertNode(node.right,data)
+	}
+	return node
+}
+
+// Compute the number of nodes in a tree.
+func size(node *treeNode)int{
+	if node == nil{
+		return 0
+	}
+	return size(node.left) + size(node.right) + 1
+}
+//Sum of all element of the bst.
+func sumOfBT(node * treeNode)int{
+	if node == nil{
+		return 0
+	}
+	return sum(node.left)+ sum(node.right)+ node.data
+}
+/*
+ Compute the "maxDepth" of a tree -- the number of nodes along
+ the longest path from the root node down to the farthest leaf node.
+*/
+func maxDepth(node *treeNode)int{
+	if node == nil{
+		return 0
+	}
+	//Compute depth of each subtree.
+	lDepth:=maxDepth(node.left)
+	rDepth:=maxDepth(node.right)
+	//Use where depth is more.
+	if lDepth > rDepth{
+		return lDepth + 1
+	}
+	return rDepth + 1
+}
+/*
+ Given a non-empty binary search tree,
+ return the minimum data value found in that tree.
+ Note that the entire tree does not need to be searched.
+*/
+
+func minVal(node *treeNode)int{
+	for node.left != nil{
+		node = node.left
+	}
+	return node.val
+}
+
+/*
+ Given a binary search tree, print out
+ its data elements in increasing
+ sorted order.
+*/
+
+func printTree(node *TreeNode){
+	if node == nil{
+		return
+	}
+	printTree(node.left)
+	fmt.Println(node.val)
+	printTree(node.right)
+}
+/*
+ Given a tree and a sum, return true if there is a path from the root
+ down to a leaf, such that adding up all the values along the path
+ equals the given sum.
+ Strategy: subtract the node value from the sum when recurring down,
+ and  check to see if the sum is 0 when you run out of tree.
+ */
+func hasPathSum(node *left,sum int){
+	if node == nil{
+		return sum == 0
+	}
+	return hasPathSum(node.left,sum-node.data) || hasPathSum(node.right,sum-node.data)
+}
+
+/*
+ Given a binary tree, print out all of its root-to-leaf
+ paths, one per line. Uses a recursive helper to do the work.
+*/
+func main(){
+	path:=make([100]int)
+	printPath(node,path,0)
+}
+func printPath(node *treeNode,path []int,pathLen int){
+	if node == nil{
+		return
+	}
+	//Add element in path
+	path[pathLen]=node.val
+	pathlen++
+
+	// If current node is leaf then print path
+	if node.left == nil && node.right == nil{
+		printArray(path,pathLen)
+	}else{
+		printPath(node.left,path,pathLen)
+		printPath(node.right,path,pathLen)
+	}
+
+}
+func printArray(path []int,pathLen int){
+	for i:=0;i< pathlen;i++{
+		fmt.Print(path[i])
+	}
+	fmt.Println()
+}
+/**
+ Changes the tree into its mirror image.
+
+ So the tree...
+       4
+      / \
+     2   5
+    / \
+   1   3
+
+ is changed to...
+       4
+      / \
+     5   2
+        / \
+       3   1
+
+ Uses a recursive helper that recurs over the tree,
+ swapping the left/right pointers.
+*/
+func mirror(node *treeNode){
+	if node == nil{
+		return
+	}
+	mirror(node.left)
+	mirror(node.right)
+
+	//swap left and right child.
+	node.left,node.right=node.right,node.left
+}
+
+/**
+ Changes the tree by inserting a duplicate node
+ on each nodes's .left.
+
+
+ So the tree...
+    2
+   / \
+  1   3
+
+ Is changed to...
+       2
+      / \
+     2   3
+    /   /
+   1   3
+  /
+ 1
+
+ Uses a recursive helper to recur over the tree
+ and insert the duplicates.
+*/
+func doubleTree(node *treeNode){
+	if node == nil{
+
+		return
+	}
+	doubleTree(node.left)
+	doubleTree(node.right)
+
+	//Add duplicate
+	oldLeft:=node.left
+	node.left=&treeNode{val:node.val}
+	node.left.left=oldLeft
+}
+/*
+ Compares the receiver to another tree to
+ see if they are structurally identical.
+*/
+func sameTree(bt1 *treeNode,bt2 *treeNode)bool{
+	if bt1 == nil && bt2 == nil{
+		return true
+	}
+	if bt1 == nil || bt2 == nil{
+		return false
+	}
+	if bt1.data != bt2.data{
+		return false
+	}
+	return sameTree(bt1.left,bt2.left) && sameTree(bt1.right,bt2.right)
+}
+
+/**
+ For the key values 1...numKeys, how many structurally unique
+ binary search trees are possible that store those keys?
+ Strategy: consider that each value could be the root.
+ Recursively find the size of the left and right subtrees.
+*/
+
+func countTrees(num int)int{
+	if num <=1{
+		return 1
+	}
+	var left,right,root
+	for root=1;root<=num;root++{
+		left=countTrees(root-1)
+		right=countTrees(num-root)
+		sum+=left*right
+	}
+	return sum
+
+}
+/**
+ Tests if a tree meets the conditions to be a
+ binary search tree (BST).
+*/
+
+func isBST1(node *treeNode)bool{
+	if node == nil{
+		return true
+	}
+	if node.left != nil && maxValue(node.left) > node.left.val{
+		return false
+	}
+	if node.right != nil && minValue(node.right) < node.right.val{
+		return false
+	}
+	return isBST1(node.left) && isBST1(node.right)
+}
+
+func isBST2(node *treeNode,minVal,maxVal int)bool{
+	if node == nil{
+		return true
+	}
+	if node.data > maxVal || node.data < minVal{
+		return false
+	}
+	rreturn isBST2(node.left,minVal,node.data) && isBST2(node.right,node.data+1,maxVal)
+}
+// https://www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/
+// https://www.geeksforgeeks.org/find-maximum-count-of-duplicate-nodes-in-a-binary-search-tree/?ref=leftbar-rightbar
+// https://www.geeksforgeeks.org/kth-smallest-element-in-bst-using-o1-extra-space/
