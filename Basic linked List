@@ -1,0 +1,187 @@
+type node struct{
+	next *node
+	val int
+}
+type linkedList struct {
+	head *node
+}
+
+func initList() *linkedList{
+	return &linkedList{}
+}
+
+func (ll * linkedList) addInFront(key int){
+	element:= &node{
+		val: key
+	}
+	if ll.head ==nil{
+		ll.head = element
+	}else{
+		element.next=head
+		head= element
+	}
+	return
+}
+func reverseLinkedList(ll *node)*node{
+	// If linked list is empty or only one node
+	if ll == nil or ll.next == nil{
+		return ll
+	}
+	prev:=nil
+	curr,next:=ll
+
+	for curr !=nil{
+		next:=curr.next
+		curr.next= prev
+		prev= curr
+		curr=next
+	}
+	return prev
+}
+-------------------
+type node struct{
+	next *node
+	val int
+}
+
+type linkedList struct{
+	head *node
+}
+
+func (ll *linkedList) addInBack(val int){
+	element := & node{ val: val,}
+	if s.head == nil{
+		s.head = elemement
+	}else{
+		current := s.head
+		for current.next !=nil{
+			current = current.next
+		}
+		current.next = element
+	}
+	return
+}
+------------------
+//remove element from front
+type node struct{
+	next *node
+	val int
+}
+type linkedList struct{
+	head *node
+}
+
+func (ll *linkedList) removeFront() error{
+	if s.head == nil{
+		return fmt.Errorf("List is empty.")
+	}
+	s.head=s.head.next
+	return nil
+}
+-----------------
+type node struct{
+	next *node
+	val int
+}
+type linkedList struct{
+	head *node
+}
+
+func (ll *linkedList) removeBack() error{
+	if ll.head == nil{
+		return fmt.Errorf("List is empty")
+	}
+	curr:=ll.head
+	prev:=curr
+	for curr.next !=nil{
+		prev= curr
+		curr=curr.next
+	}
+	prev.next=nil
+}
+
+--------------
+//detect a loop in linked list
+
+type node struct{
+	next *node
+	data int
+}
+type linkedList struct{
+	head *node
+}
+
+func (ll *linkedList) detectLoop()bool{
+	curr:= ll.head
+	// If linked list is empty or just one node.
+	if curr == nil || curr.Next == nil{
+		return false
+	}
+	 var nodeMap := make(map[node]bool)
+
+	 for curr !=nil{
+		 if _,OK:= nodeMap[cur]; !OK{
+			 nodeMap[cur]=true
+		 }else{
+			 return true
+		 }
+		 curr=curr.Next
+	 }
+
+}
+Time and space both (N)
+// Mark visited node
+
+type Node struct{
+	next *Node
+	data *int
+	visited bool
+}
+type linkedList struct{
+	head *Node
+}
+func (ll *linkedList) detectLoop()bool{
+	curr:=ll.head
+	if curr == nil || curr.next == nil{
+		return false
+	}
+
+	// Traverse list and mark node visited.
+	for curr !=nil {
+		if curr.visited{
+			return true
+		}
+		curr.visited = true
+		curr = curr.next
+	}
+	return false
+}
+//----------------------------------------------
+//floyed cycle finding algo
+type node struct{
+	next *node
+	data int
+}
+type linkedList struct{
+	head *node
+}
+func (ll *linkedList) detectLoop()bool{
+	//if list is empty or just have one elment.
+	if ll.head == nil || ll.head.next == nil{
+		return false
+	}
+
+	fastTraversal,SlowTraversal:= ll.head,ll.head
+
+	for fastTraversal && SlowTraversal && fastTraversal.next{
+		fastTraversal = fastTraversal.next.next
+		SlowTraversal = SlowTraversal.next
+
+		if fastTraversal == SlowTraversal{
+			return true
+		}
+	}
+	return false
+
+
+}
