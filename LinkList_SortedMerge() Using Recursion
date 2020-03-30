@@ -1,0 +1,21 @@
+SortedMerge() Using Recursion
+Merge() is one of those nice recursive problems where the recursive solution code is
+much cleaner than the iterative code. You probably wouldn't want to use the recursive
+version for production code however, because it will use stack space which is
+proportional to the length of the lists.
+
+struct node* SortedMerge3(struct node* a, struct node* b) {
+  struct node* result = NULL;
+  // Base cases
+  if (a==NULL) return(b);
+  else if (b==NULL) return(a);
+  // Pick either a or b, and recur
+  if (a->data <= b->data) {
+    result = a;
+    result->next = SortedMerge3(a->next, b);
+  }else {
+    result = b;
+    result->next = SortedMerge3(a, b->next);
+  }
+  return(result);
+}
