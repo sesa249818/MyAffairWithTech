@@ -1,5 +1,8 @@
 https://computer.howstuffworks.com/question697.htm
 
+it is worth mentioning that sometimes we want to give seed so that same random sequence is generated on every run of the program. 
+Sometimes, randomness in software program(s) is avoided to keep program behavior deterministic and possibility of reproducing the issues / bugs.
+
 There are two ways that computers can generate random numbers:
 
 You can create some sort of device that monitors a completely random natural event and sends its results to the computer. 
