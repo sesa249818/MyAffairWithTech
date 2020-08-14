@@ -1,4 +1,5 @@
 https://computer.howstuffworks.com/question697.htm
+https://daily.jstor.org/the-quantum-random-number-generator/
 
 it is worth mentioning that sometimes we want to give seed so that same random sequence is generated on every run of the program. 
 Sometimes, randomness in software program(s) is avoided to keep program behavior deterministic and possibility of reproducing the issues / bugs.
