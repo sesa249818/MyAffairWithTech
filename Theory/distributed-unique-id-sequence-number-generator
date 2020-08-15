@@ -1,4 +1,8 @@
+https://github.com/twitter-archive/snowflake/tree/snowflake-2010
+
 https://www.callicoder.com/distributed-unique-id-sequence-number-generator/
+
+https://www.toptal.com/big-data/consistent-hashing#:~:text=Consistent%20Hashing%20is%20a%20distributed,without%20affecting%20the%20overall%20system
 
 UUID
 UUIDs are 128-bit hexadecimal numbers that are globally unique. The chances of the same UUID getting generated twice is negligible.
