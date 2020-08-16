@@ -1,0 +1,53 @@
+https://www.keycdn.com/support/rate-limiting
+
+Rate limiting is used to control the amount of incoming and outgoing traffic to or from a network. For example, let's say you are using a particular service's API that is configured to allow 100 requests/minute. If the number of requests you make exceeds that limit, then an error will be triggered. The reasoning behind implementing rate limits is to allow for a better flow of data and to increase security by mitigating attacks such as DDoS.
+
+Rate limiting also comes in useful if a particular user on the network makes a mistake in their request, thus asking the server to retrieve tons of information that may overload the network for everyone. With rate limiting in place however, these types of errors or attacks are much more manageable.
+
+In this post, we'll be diving deeper into various types of rate limiting methods, implementation examples, and how rate limiting works in conjunction with KeyCDN.
+
+Types of rate limits#
+There are various methods and parameters that can be defined when setting rate limits. The rate limit method that should be used will depend on what you want to achieve as well as how restrictive you want to be. The section below outlines three different types of rate limiting methods that you can implement.
+
+User rate limiting: The most popular type of rate limiting is user rate limiting. This associates the number of requests a user is making to their API key or IP (depending on which method you use). Therefore, if the user exceeds the rate limit, then any further requests will be denied until they reach out to the developer to increase the limit or wait until the rate limit timeframe resets.
+Geographic rate limiting: To further increase security in certain geographic regions, developers can set rate limits for particular regions and particular time periods. For instance, if a developer knows that from midnight to 8:00 am users in a particular region won't be as active, then they can define lower rate limits for that time period. This can be used as a preventative measure to help further reduce the risk of attacks or suspicious activity.
+Server rate limiting: If a developer has defined certain servers to handle certain aspects of their application then they can define rate limits on a server-level basis. This gives developers the freedom to decrease traffic limits on server A while increasing it on server B (a more commonly used server).
+Rate limit implementation#
+There are various ways to go about actually implementing rate limits. This can be done at the server level, it can be implemented via a programming language or even a caching mechanism. The two implementation examples below show how to integrate rate limiting either via Nginx or Apache.
+
+Nginx#
+If you're using Nginx as your web server and would like to implement rate limiting at the server-level then you can take advantage of the module ngx_http_limit_req_module. This can be implemented directly within your Nginx configuration file. Using this method, Nginx rate limits based on the user's IP address.
+
+http {
+    limit_req_zone $binary_remote_addr zone=one:10m rate=2r/s;
+    ...
+
+server {
+    ...
+    location /promotion/ {
+        limit_req zone=one burst=5;
+    }
+}
+The snippet above allows not more than 2 request per second at an average, with bursts not exceeding 5 requests.
+
+Apache#
+Similarly, Apache users can also implement rate limiting within the Apache configuration file using more or less the same method as Nginx users. With Apache, the module mod_ratelimit must be used in order to limit client bandwidth. Throttling is applied to each HTTP response instead of being aggregated at the IP/client level.
+
+<Location "/promotion">
+    SetOutputFilter RATE_LIMIT
+    SetEnv rate-limit 400
+    SetEnv rate-initial-burst 512
+</Location>
+The values in the snippet above are defined in KiB/s. Therefore the rate-limit environment variable, used to specify the connection speed to be simulated is 400 KiB/s while the initial amount of burst data is 512 KiB/s.
+
+Rate limiting and KeyCDN#
+KeyCDN also makes use of rate limiting for our API. API requests are currently rate limited at 20 queries per 60 seconds. KeyCDN also provides two HTTP headers to provide you with additional information regarding where your utilization is for the given rate limit.
+
+X-Rate-Limit-Limit HTTP header is the rate limit ceiling for that given request.
+X-Rate-Limit-Remaining HTTP header the number of requests left for the 60 seconds window.
+In the event that you reach the rate limit, KeyCDN will return a 429 Too Many Requests response code.
+
+You may also feel the effects of rate limiting on your origin server once implementing KeyCDN. In certain cases, users will receive a 500 Origin Not Reachable error which means that KeyCDN was not able to get a valid or any response from the origin server. In the event that this occurs and everything seems to be working fine on your origin, check with your hosting provider to see whether or not they have rate limiting applied and if so, they may need to increase the limit for your particular use case.
+
+Summary#
+Rate limiting can be a great method to help fight against infrastructure attacks as well as block other types of suspicious activity. As mentioned, there are various methods you can use to implement rate limiting whether it be at the server level, user level, etc. If you are experiencing a 429 Too Many Requests error for a particular API you're working with, be sure to reach out to the developers or check their docs to verify what the rate limit is currently configured to and modify your usage to fit within those limits.
